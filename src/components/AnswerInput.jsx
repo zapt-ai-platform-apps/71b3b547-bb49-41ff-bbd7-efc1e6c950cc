@@ -2,7 +2,7 @@ function AnswerInput(props) {
   return (
     <form onSubmit={props.onSubmit} class="mb-4 w-full max-w-md">
       <input
-        type="number"
+        type="text"
         value={props.answer()}
         onInput={(e) => props.setAnswer(e.target.value)}
         class="w-full p-3 rounded border box-border"
@@ -11,9 +11,9 @@ function AnswerInput(props) {
       />
       <button
         type="submit"
-        disabled={props.loading()}
+        disabled={props.loading() || props.isCorrect()}
         class={`w-full mt-2 p-3 rounded bg-purple-600 text-white font-bold hover:bg-purple-700 cursor-pointer ${
-          props.loading() ? 'opacity-50 cursor-not-allowed' : ''
+          props.loading() || props.isCorrect() ? 'opacity-50 cursor-not-allowed' : ''
         }`}
       >
         {props.loading() ? 'Checking...' : 'Submit Answer'}

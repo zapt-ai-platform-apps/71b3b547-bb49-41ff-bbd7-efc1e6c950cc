@@ -1,4 +1,3 @@
-export async function createEvent(eventType, payload) {
-  // Simulate an API call to generate a hint
-  return `Hint: Review your calculations and make sure you've applied the correct formulas.`;
-}
+import { initializeZapt } from '@zapt/zapt-js';
+
+export const { createEvent, supabase } = initializeZapt(import.meta.env.VITE_PUBLIC_APP_ID);

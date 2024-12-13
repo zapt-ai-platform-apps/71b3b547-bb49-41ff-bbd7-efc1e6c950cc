@@ -22,10 +22,10 @@ function Feedback(props) {
       )}
       {props.isCorrect() && (
         <button
-          onClick={props.onResetProblem}
+          onClick={props.onNextProblem}
           class="mt-2 p-2 rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
         >
-          Set New Problem
+          Next Problem
         </button>
       )}
     </div>
