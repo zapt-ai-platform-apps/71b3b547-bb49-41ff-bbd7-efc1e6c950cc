@@ -1,7 +1,10 @@
 import { Show } from 'solid-js';
-import ProblemDisplay from './components/ProblemDisplay';
-import AnswerInput from './components/AnswerInput';
-import Feedback from './components/Feedback';
+import {
+  ProblemDisplay,
+  AnswerInput,
+  Feedback,
+  ProblemInput,
+} from './components/MathComponents';
 import useMathProblem from './hooks/useMathProblem';
 
 function App() {
@@ -22,13 +25,53 @@ function App() {
     handleSubmit,
     handleTryAgain,
     handleNextProblem,
+    useCustomProblem,
+    setUseCustomProblem,
+    customProblem,
+    setCustomProblem,
+    handleSetCustomProblem,
   } = useMathProblem();
 
   return (
     <div class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 flex flex-col items-center text-gray-800">
       <h1 class="text-4xl font-bold text-purple-600 mb-8">Maths Homework Marker</h1>
 
-      <Show when={!generatingProblem()} fallback={<p class="text-xl mb-4">Generating problem...</p>}>
+      <div class="w-full max-w-md mb-4">
+        <button
+          class={`w-1/2 p-2 ${
+            !useCustomProblem()
+              ? 'bg-purple-600 text-white'
+              : 'bg-white text-purple-600 border border-purple-600'
+          } font-bold rounded-l hover:bg-purple-700 cursor-pointer`}
+          onClick={() => setUseCustomProblem(false)}
+        >
+          Generated Problem
+        </button>
+        <button
+          class={`w-1/2 p-2 ${
+            useCustomProblem()
+              ? 'bg-purple-600 text-white'
+              : 'bg-white text-purple-600 border border-purple-600'
+          } font-bold rounded-r hover:bg-purple-700 cursor-pointer`}
+          onClick={() => setUseCustomProblem(true)}
+        >
+          Enter Your Problem
+        </button>
+      </div>
+
+      <Show when={useCustomProblem()}>
+        <ProblemInput
+          customProblem={customProblem}
+          setCustomProblem={setCustomProblem}
+          onSetProblem={handleSetCustomProblem}
+          loading={loading}
+        />
+      </Show>
+
+      <Show
+        when={!generatingProblem() && problem()}
+        fallback={<p class="text-xl mb-4">Generating problem...</p>}
+      >
         <ProblemDisplay problem={problem} />
         <AnswerInput
           answer={answer}
