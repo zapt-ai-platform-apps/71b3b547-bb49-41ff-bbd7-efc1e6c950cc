@@ -10,6 +10,7 @@ function useMathProblem() {
   const [problem, setProblem] = createSignal('');
   const [answer, setAnswer] = createSignal('');
   const [feedback, setFeedback] = createSignal('');
+  const [hint, setHint] = createSignal('');
   const [isCorrect, setIsCorrect] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
   const [generatingProblem, setGeneratingProblem] = createSignal(false);
@@ -22,7 +23,8 @@ function useMathProblem() {
       setProblem,
       setAnswer,
       setFeedback,
-      setIsCorrect
+      setIsCorrect,
+      setHint
     );
   };
 
@@ -34,7 +36,8 @@ function useMathProblem() {
       setAnswer,
       setFeedback,
       setIsCorrect,
-      setGeneratingProblem
+      setGeneratingProblem,
+      setHint
     );
   };
 
@@ -46,6 +49,7 @@ function useMathProblem() {
       setUseCustomProblem,
       fetchProblemHandler
     );
+    setHint('');
   };
 
   onMount(() => {
@@ -67,12 +71,13 @@ function useMathProblem() {
       problem,
       setLoading,
       setIsCorrect,
-      setFeedback
+      setFeedback,
+      setHint
     );
   };
 
   const handleTryAgainHandler = () => {
-    handleTryAgain(setAnswer, setFeedback);
+    handleTryAgain(setAnswer, setFeedback, setHint);
   };
 
   return {
@@ -82,6 +87,8 @@ function useMathProblem() {
     setAnswer,
     feedback,
     setFeedback,
+    hint,
+    setHint,
     isCorrect,
     setIsCorrect,
     loading,

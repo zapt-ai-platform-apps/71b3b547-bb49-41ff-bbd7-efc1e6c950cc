@@ -1,3 +1,5 @@
+import { Show } from 'solid-js';
+
 function Feedback(props) {
   return (
     <div class="mb-4 w-full max-w-md text-center">
@@ -10,6 +12,13 @@ function Feedback(props) {
           }`}
         >
           <p>{props.feedback()}</p>
+          <Show when={!props.isCorrect() && props.hint()}>
+            <div class="mt-2 p-2 rounded bg-yellow-100 text-yellow-700">
+              <p>
+                <strong>Hint:</strong> {props.hint()}
+              </p>
+            </div>
+          </Show>
         </div>
       )}
       {!props.isCorrect() && props.feedback() && (

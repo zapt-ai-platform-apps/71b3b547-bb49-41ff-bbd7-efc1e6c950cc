@@ -5,7 +5,8 @@ export const fetchProblem = async (
   setProblem,
   setAnswer,
   setFeedback,
-  setIsCorrect
+  setIsCorrect,
+  setHint
 ) => {
   setGeneratingProblem(true);
   try {
@@ -19,6 +20,7 @@ export const fetchProblem = async (
     setAnswer('');
     setFeedback('');
     setIsCorrect(false);
+    setHint('');
     console.log('Problem generated:', generatedProblem);
   } catch (error) {
     console.error('Error generating problem:', error);
@@ -34,7 +36,8 @@ export const handleSetCustomProblem = (
   setAnswer,
   setFeedback,
   setIsCorrect,
-  setGeneratingProblem
+  setGeneratingProblem,
+  setHint
 ) => {
   e.preventDefault();
   if (!customProblem().trim()) return;
@@ -43,6 +46,7 @@ export const handleSetCustomProblem = (
   setAnswer('');
   setFeedback('');
   setIsCorrect(false);
+  setHint('');
   setGeneratingProblem(false);
 };
 
@@ -56,6 +60,7 @@ export const handleNextProblem = (
   if (useCustomProblem()) {
     setProblem('');
     setCustomProblem('');
+    setUseCustomProblem(false);
     fetchProblem();
   } else {
     fetchProblem();

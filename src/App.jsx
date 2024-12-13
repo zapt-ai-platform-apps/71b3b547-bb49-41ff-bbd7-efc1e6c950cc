@@ -1,11 +1,8 @@
 import { Show } from 'solid-js';
-import {
-  ProblemDisplay,
-  AnswerInput,
-  Feedback,
-  ProblemInput,
-} from './components/MathComponents';
+import ProblemModeSwitcher from './components/ProblemModeSwitcher';
 import useMathProblem from './hooks/useMathProblem';
+import { ProblemInput } from './components/MathComponents';
+import ProblemSection from './components/ProblemSection';
 
 function App() {
   const {
@@ -15,6 +12,8 @@ function App() {
     setAnswer,
     feedback,
     setFeedback,
+    hint,
+    setHint,
     isCorrect,
     setIsCorrect,
     loading,
@@ -36,28 +35,10 @@ function App() {
     <div class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 flex flex-col items-center text-gray-800">
       <h1 class="text-4xl font-bold text-purple-600 mb-8">Maths Homework Marker</h1>
 
-      <div class="w-full max-w-md mb-4">
-        <button
-          class={`w-1/2 p-2 ${
-            !useCustomProblem()
-              ? 'bg-purple-600 text-white'
-              : 'bg-white text-purple-600 border border-purple-600'
-          } font-bold rounded-l hover:bg-purple-700 cursor-pointer`}
-          onClick={() => setUseCustomProblem(false)}
-        >
-          Generated Problem
-        </button>
-        <button
-          class={`w-1/2 p-2 ${
-            useCustomProblem()
-              ? 'bg-purple-600 text-white'
-              : 'bg-white text-purple-600 border border-purple-600'
-          } font-bold rounded-r hover:bg-purple-700 cursor-pointer`}
-          onClick={() => setUseCustomProblem(true)}
-        >
-          Enter Your Problem
-        </button>
-      </div>
+      <ProblemModeSwitcher
+        useCustomProblem={useCustomProblem}
+        setUseCustomProblem={setUseCustomProblem}
+      />
 
       <Show when={useCustomProblem()}>
         <ProblemInput
@@ -72,19 +53,17 @@ function App() {
         when={!generatingProblem() && problem()}
         fallback={<p class="text-xl mb-4">Generating problem...</p>}
       >
-        <ProblemDisplay problem={problem} />
-        <AnswerInput
+        <ProblemSection
+          problem={problem}
           answer={answer}
           setAnswer={setAnswer}
-          onSubmit={handleSubmit}
-          loading={loading}
-          isCorrect={isCorrect}
-        />
-        <Feedback
           feedback={feedback}
+          hint={hint}
           isCorrect={isCorrect}
-          onTryAgain={handleTryAgain}
-          onNextProblem={handleNextProblem}
+          loading={loading}
+          handleSubmit={handleSubmit}
+          handleTryAgain={handleTryAgain}
+          handleNextProblem={handleNextProblem}
         />
       </Show>
 
