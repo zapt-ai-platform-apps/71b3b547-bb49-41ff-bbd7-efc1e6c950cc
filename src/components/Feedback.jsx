@@ -15,17 +15,17 @@ function Feedback(props) {
       {!props.isCorrect() && props.feedback() && (
         <button
           onClick={props.onTryAgain}
-          class="mt-2 p-2 rounded bg-yellow-500 text-white hover:bg-yellow-600"
+          class="mt-2 p-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 cursor-pointer"
         >
           Try Again
         </button>
       )}
       {props.isCorrect() && (
         <button
-          onClick={props.onNextProblem}
-          class="mt-2 p-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+          onClick={props.onResetProblem}
+          class="mt-2 p-2 rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
         >
-          Next Problem
+          Set New Problem
         </button>
       )}
     </div>
