@@ -1,4 +1,6 @@
-import { ProblemDisplay, AnswerInput, Feedback } from './MathComponents';
+import ProblemDisplay from './ProblemDisplay';
+import AnswerInput from './AnswerInput';
+import Feedback from './Feedback';
 
 function ProblemSection(props) {
   const {
@@ -7,6 +9,7 @@ function ProblemSection(props) {
     setAnswer,
     feedback,
     hint,
+    solution,
     isCorrect,
     loading,
     handleSubmit,
@@ -27,6 +30,7 @@ function ProblemSection(props) {
       <Feedback
         feedback={feedback}
         hint={hint}
+        solution={solution}
         isCorrect={isCorrect}
         onTryAgain={handleTryAgain}
         onNextProblem={handleNextProblem}

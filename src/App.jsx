@@ -1,7 +1,7 @@
 import { Show } from 'solid-js';
 import ProblemModeSwitcher from './components/ProblemModeSwitcher';
 import useMathProblem from './hooks/useMathProblem';
-import { ProblemInput } from './components/MathComponents';
+import ProblemInput from './components/ProblemInput';
 import ProblemSection from './components/ProblemSection';
 
 function App() {
@@ -14,6 +14,8 @@ function App() {
     setFeedback,
     hint,
     setHint,
+    solution,
+    setSolution,
     isCorrect,
     setIsCorrect,
     loading,
@@ -32,7 +34,7 @@ function App() {
   } = useMathProblem();
 
   return (
-    <div class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 flex flex-col items-center text-gray-800">
+    <div class="h-full bg-gradient-to-br from-purple-100 to-blue-100 p-4 flex flex-col items-center text-gray-800">
       <h1 class="text-4xl font-bold text-purple-600 mb-8">Maths Homework Marker</h1>
 
       <ProblemModeSwitcher
@@ -59,6 +61,7 @@ function App() {
           setAnswer={setAnswer}
           feedback={feedback}
           hint={hint}
+          solution={solution}
           isCorrect={isCorrect}
           loading={loading}
           handleSubmit={handleSubmit}

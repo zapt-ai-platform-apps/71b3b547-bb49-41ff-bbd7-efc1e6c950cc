@@ -1,35 +1,32 @@
-import { createEvent } from '../supabaseClient';
-
-export const fetchProblem = async (
+export async function fetchProblemHandler(
   setGeneratingProblem,
   setProblem,
   setAnswer,
   setFeedback,
   setIsCorrect,
-  setHint
-) => {
+  setHint,
+  setSolution
+) {
   setGeneratingProblem(true);
   try {
-    console.log('Generating new problem...');
-    const generatedProblem = await createEvent('chatgpt_request', {
-      prompt:
-        'Generate a single math problem suitable for a student, and provide only the problem statement.',
-      response_type: 'text',
-    });
-    setProblem(generatedProblem.trim());
+    // Simulate fetching a problem from an API or database
+    const fetchedProblem = await new Promise((resolve) =>
+      setTimeout(() => resolve('Solve for x: 2x + 3 = 7'), 1000)
+    );
+    setProblem(fetchedProblem);
     setAnswer('');
     setFeedback('');
     setIsCorrect(false);
     setHint('');
-    console.log('Problem generated:', generatedProblem);
+    setSolution('');
   } catch (error) {
-    console.error('Error generating problem:', error);
-    setFeedback('Error generating problem. Please try again.');
+    console.error('Error fetching problem:', error);
+  } finally {
+    setGeneratingProblem(false);
   }
-  setGeneratingProblem(false);
-};
+}
 
-export const handleSetCustomProblem = (
+export function handleSetCustomProblemHandler(
   e,
   customProblem,
   setProblem,
@@ -37,32 +34,32 @@ export const handleSetCustomProblem = (
   setFeedback,
   setIsCorrect,
   setGeneratingProblem,
-  setHint
-) => {
+  setHint,
+  setSolution
+) {
   e.preventDefault();
-  if (!customProblem().trim()) return;
   setGeneratingProblem(true);
-  setProblem(customProblem().trim());
+  setProblem(customProblem());
   setAnswer('');
   setFeedback('');
   setIsCorrect(false);
   setHint('');
+  setSolution('');
   setGeneratingProblem(false);
-};
+}
 
-export const handleNextProblem = (
+export function handleNextProblemHandler(
   useCustomProblem,
   setProblem,
   setCustomProblem,
   setUseCustomProblem,
   fetchProblem
-) => {
+) {
   if (useCustomProblem()) {
     setProblem('');
     setCustomProblem('');
     setUseCustomProblem(false);
-    fetchProblem();
   } else {
     fetchProblem();
   }
-};
+}

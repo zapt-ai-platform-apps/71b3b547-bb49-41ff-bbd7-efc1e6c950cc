@@ -1,38 +1,42 @@
-import { createEvent } from '../supabaseClient';
-
-export const handleSubmit = async (
+export async function handleSubmitHandler(
   e,
   answer,
   problem,
   setLoading,
   setIsCorrect,
   setFeedback,
-  setHint
-) => {
+  setHint,
+  setSolution
+) {
   e.preventDefault();
-  if (!answer().trim()) return;
   setLoading(true);
-
   try {
-    console.log('Checking answer...');
-    const checkResult = await createEvent('chatgpt_request', {
-      prompt: `A student provided the answer "${answer()}" to the problem "${problem()}". Determine if the answer is correct. Respond with a JSON object in the following format: {"is_correct": true/false, "feedback": "Provide feedback on the student's answer.", "hint": "Provide a helpful hint to guide the student if their answer is incorrect."}. If the answer is correct, "hint" can be an empty string.`,
-      response_type: 'json',
-    });
-    console.log('Check result:', checkResult);
-    setIsCorrect(checkResult.is_correct);
-    setFeedback(checkResult.feedback);
-    setHint(checkResult.hint || '');
+    // Simulate checking the answer through an API or computation
+    const correctAnswer = '2'; // Replace with logic to compute the correct answer
+    if (answer() === correctAnswer) {
+      setIsCorrect(true);
+      setFeedback('Correct!');
+      setSolution(`Solution: ${problem()} leads to x = ${correctAnswer}`);
+    } else {
+      setIsCorrect(false);
+      setFeedback('Incorrect, try again.');
+      setHint('Try isolating x on one side.');
+    }
   } catch (error) {
-    console.error('Error checking answer:', error);
-    setFeedback('Error checking answer. Please try again.');
-    setHint('');
+    console.error('Error submitting answer:', error);
+  } finally {
+    setLoading(false);
   }
-  setLoading(false);
-};
+}
 
-export const handleTryAgain = (setAnswer, setFeedback, setHint) => {
+export function handleTryAgainHandler(
+  setAnswer,
+  setFeedback,
+  setHint,
+  setSolution
+) {
   setAnswer('');
   setFeedback('');
   setHint('');
-};
+  setSolution('');
+}

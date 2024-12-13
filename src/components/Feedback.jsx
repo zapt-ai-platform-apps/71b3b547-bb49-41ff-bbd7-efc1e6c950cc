@@ -21,6 +21,12 @@ function Feedback(props) {
           </Show>
         </div>
       )}
+      <Show when={props.solution()}>
+        <div class="mt-4 p-4 rounded bg-gray-100 text-gray-800 text-left">
+          <h3 class="font-semibold mb-2">Solution:</h3>
+          <p>{props.solution()}</p>
+        </div>
+      </Show>
       {!props.isCorrect() && props.feedback() && (
         <button
           onClick={props.onTryAgain}

@@ -1,35 +1,37 @@
 import { createSignal, onMount, createEffect } from 'solid-js';
 import {
-  fetchProblem,
-  handleSetCustomProblem,
-  handleNextProblem,
+  fetchProblemHandler,
+  handleSetCustomProblemHandler,
+  handleNextProblemHandler,
 } from './problemHandlers';
-import { handleSubmit, handleTryAgain } from './answerHandlers';
+import { handleSubmitHandler, handleTryAgainHandler } from './answerHandlers';
 
 function useMathProblem() {
   const [problem, setProblem] = createSignal('');
   const [answer, setAnswer] = createSignal('');
   const [feedback, setFeedback] = createSignal('');
   const [hint, setHint] = createSignal('');
+  const [solution, setSolution] = createSignal('');
   const [isCorrect, setIsCorrect] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
   const [generatingProblem, setGeneratingProblem] = createSignal(false);
   const [useCustomProblem, setUseCustomProblem] = createSignal(false);
   const [customProblem, setCustomProblem] = createSignal('');
 
-  const fetchProblemHandler = async () => {
-    await fetchProblem(
+  const fetchProblem = async () => {
+    await fetchProblemHandler(
       setGeneratingProblem,
       setProblem,
       setAnswer,
       setFeedback,
       setIsCorrect,
-      setHint
+      setHint,
+      setSolution
     );
   };
 
-  const handleSetCustomProblemHandler = (e) => {
-    handleSetCustomProblem(
+  const handleSetCustomProblem = (e) => {
+    handleSetCustomProblemHandler(
       e,
       customProblem,
       setProblem,
@@ -37,47 +39,50 @@ function useMathProblem() {
       setFeedback,
       setIsCorrect,
       setGeneratingProblem,
-      setHint
+      setHint,
+      setSolution
     );
   };
 
-  const handleNextProblemHandler = () => {
-    handleNextProblem(
+  const handleNextProblem = () => {
+    handleNextProblemHandler(
       useCustomProblem,
       setProblem,
       setCustomProblem,
       setUseCustomProblem,
-      fetchProblemHandler
+      fetchProblem
     );
     setHint('');
+    setSolution('');
   };
 
   onMount(() => {
     if (!useCustomProblem()) {
-      fetchProblemHandler();
+      fetchProblem();
     }
   });
 
   createEffect(() => {
     if (!useCustomProblem() && !problem()) {
-      fetchProblemHandler();
+      fetchProblem();
     }
   });
 
-  const handleSubmitHandler = async (e) => {
-    await handleSubmit(
+  const handleSubmit = async (e) => {
+    await handleSubmitHandler(
       e,
       answer,
       problem,
       setLoading,
       setIsCorrect,
       setFeedback,
-      setHint
+      setHint,
+      setSolution
     );
   };
 
-  const handleTryAgainHandler = () => {
-    handleTryAgain(setAnswer, setFeedback, setHint);
+  const handleTryAgain = () => {
+    handleTryAgainHandler(setAnswer, setFeedback, setHint, setSolution);
   };
 
   return {
@@ -89,21 +94,23 @@ function useMathProblem() {
     setFeedback,
     hint,
     setHint,
+    solution,
+    setSolution,
     isCorrect,
     setIsCorrect,
     loading,
     setLoading,
     generatingProblem,
     setGeneratingProblem,
-    fetchProblem: fetchProblemHandler,
-    handleSubmit: handleSubmitHandler,
-    handleTryAgain: handleTryAgainHandler,
-    handleNextProblem: handleNextProblemHandler,
+    fetchProblem,
+    handleSubmit,
+    handleTryAgain,
+    handleNextProblem,
     useCustomProblem,
     setUseCustomProblem,
     customProblem,
     setCustomProblem,
-    handleSetCustomProblem: handleSetCustomProblemHandler,
+    handleSetCustomProblem,
   };
 }
 
