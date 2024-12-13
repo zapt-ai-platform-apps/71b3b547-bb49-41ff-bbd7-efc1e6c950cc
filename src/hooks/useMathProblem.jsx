@@ -1,5 +1,9 @@
-import { createSignal, onMount } from 'solid-js';
-import { fetchProblem, handleSetCustomProblem, handleNextProblem } from './problemHandlers';
+import { createSignal, onMount, createEffect } from 'solid-js';
+import {
+  fetchProblem,
+  handleSetCustomProblem,
+  handleNextProblem,
+} from './problemHandlers';
 import { handleSubmit, handleTryAgain } from './answerHandlers';
 
 function useMathProblem() {
@@ -13,23 +17,58 @@ function useMathProblem() {
   const [customProblem, setCustomProblem] = createSignal('');
 
   const fetchProblemHandler = async () => {
-    await fetchProblem(setGeneratingProblem, setProblem, setAnswer, setFeedback, setIsCorrect);
+    await fetchProblem(
+      setGeneratingProblem,
+      setProblem,
+      setAnswer,
+      setFeedback,
+      setIsCorrect
+    );
   };
 
   const handleSetCustomProblemHandler = (e) => {
-    handleSetCustomProblem(e, customProblem, setProblem, setAnswer, setFeedback, setIsCorrect);
+    handleSetCustomProblem(
+      e,
+      customProblem,
+      setProblem,
+      setAnswer,
+      setFeedback,
+      setIsCorrect,
+      setGeneratingProblem
+    );
   };
 
   const handleNextProblemHandler = () => {
-    handleNextProblem(useCustomProblem, setProblem, setCustomProblem, setUseCustomProblem, fetchProblemHandler);
+    handleNextProblem(
+      useCustomProblem,
+      setProblem,
+      setCustomProblem,
+      setUseCustomProblem,
+      fetchProblemHandler
+    );
   };
 
   onMount(() => {
-    fetchProblemHandler();
+    if (!useCustomProblem()) {
+      fetchProblemHandler();
+    }
+  });
+
+  createEffect(() => {
+    if (!useCustomProblem() && !problem()) {
+      fetchProblemHandler();
+    }
   });
 
   const handleSubmitHandler = async (e) => {
-    await handleSubmit(e, answer, problem, setLoading, setIsCorrect, setFeedback);
+    await handleSubmit(
+      e,
+      answer,
+      problem,
+      setLoading,
+      setIsCorrect,
+      setFeedback
+    );
   };
 
   const handleTryAgainHandler = () => {

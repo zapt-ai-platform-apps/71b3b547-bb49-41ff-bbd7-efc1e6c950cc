@@ -1,11 +1,18 @@
 import { createEvent } from '../supabaseClient';
 
-export const fetchProblem = async (setGeneratingProblem, setProblem, setAnswer, setFeedback, setIsCorrect) => {
+export const fetchProblem = async (
+  setGeneratingProblem,
+  setProblem,
+  setAnswer,
+  setFeedback,
+  setIsCorrect
+) => {
   setGeneratingProblem(true);
   try {
     console.log('Generating new problem...');
     const generatedProblem = await createEvent('chatgpt_request', {
-      prompt: 'Generate a single math problem suitable for a student, and provide only the problem statement.',
+      prompt:
+        'Generate a single math problem suitable for a student, and provide only the problem statement.',
       response_type: 'text',
     });
     setProblem(generatedProblem.trim());
@@ -20,20 +27,35 @@ export const fetchProblem = async (setGeneratingProblem, setProblem, setAnswer, 
   setGeneratingProblem(false);
 };
 
-export const handleSetCustomProblem = (e, customProblem, setProblem, setAnswer, setFeedback, setIsCorrect) => {
+export const handleSetCustomProblem = (
+  e,
+  customProblem,
+  setProblem,
+  setAnswer,
+  setFeedback,
+  setIsCorrect,
+  setGeneratingProblem
+) => {
   e.preventDefault();
   if (!customProblem().trim()) return;
+  setGeneratingProblem(true);
   setProblem(customProblem().trim());
   setAnswer('');
   setFeedback('');
   setIsCorrect(false);
+  setGeneratingProblem(false);
 };
 
-export const handleNextProblem = (useCustomProblem, setProblem, setCustomProblem, setUseCustomProblem, fetchProblem) => {
+export const handleNextProblem = (
+  useCustomProblem,
+  setProblem,
+  setCustomProblem,
+  setUseCustomProblem,
+  fetchProblem
+) => {
   if (useCustomProblem()) {
     setProblem('');
     setCustomProblem('');
-    setUseCustomProblem(false);
     fetchProblem();
   } else {
     fetchProblem();
