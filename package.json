@@ -1,7 +1,7 @@
 {
-    "name": "solidjs-vite-tailwind-vercel",
+    "name": "maths-homework-marker",
     "version": "1.0.0",
-    "description": "SolidJS app with Vite, Tailwind",
+    "description": "Maths Homework Marker - SolidJS app with Vite, Tailwind",
     "type": "module",
     "scripts": {
         "dev": "vite",
